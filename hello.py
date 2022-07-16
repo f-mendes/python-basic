@@ -17,20 +17,50 @@ Execução:
     /hello.py
 """
 
-__version__ = "0.0.1"
+__version__ = "0.1.3"
 __author__ = "Felipe Mendes"
 __license__ = "Unlicense"
 
 import os
+import sys
 
-current_language = os.getenv("LANG", "en_US")[:5]
+arguments = {
+    'lang': None,
+    'count': 1
+}
 
-msg = "Hello, World!"
+for arg in sys.argv[1:]:
+    # TODO: Tratar ValueError
+    key, value = arg.split('=')
+    key = key.lstrip('-').strip()
+    value = value.strip()
+    if key not in arguments:
+        print(f"Invalid Option `{key}`")
+        sys.exit()
+    arguments[key] = value
 
-if current_language == "pt_BR":
-    msg = "Olá, Mundo"
-elif current_language == "it_IT":
-    msg = "Ciao, Mondo!" 
 
-print(msg)
+
+current_language = arguments['lang']
+
+if current_language == None:
+    current_language = os.getenv("LANG")
+    # TODO: Usar repetição
+    if current_language is None:
+        current_language = input(
+            "choose a language: "
+        )
+
+
+current_language = current_language[:5]
+
+
+
+msg = {
+    "pt_BR":"Olá, Mundo!",
+    "it_IT":"Ciao, Mondo!",
+    "en_US":"Hello, World!"
+}
+
+print(msg[current_language] * int(arguments["count"]))
 

@@ -1,0 +1,3 @@
+# cliente, quartos, dias
+Felipe,2,3
+Cintia,4,2
